@@ -67,19 +67,19 @@ PlasmaCore.ToolTipArea {
     property var audioStreams: []
     property bool delayAudioStreamIndicator: false
     property bool completed: false
-    readonly property bool audioIndicatorsEnabled: Plasmoid.configuration.interactiveMute
-    readonly property bool hasAudioStream: audioStreams.length > 0
-    readonly property bool playingAudio: hasAudioStream && audioStreams.some(item => !item.corked)
-    readonly property bool muted: hasAudioStream && audioStreams.every(item => item.muted)
+    readonly property bool audioIndicatorsEnabled: false //Plasmoid.configuration.interactiveMute
+    readonly property bool hasAudioStream: false //audioStreams.length > 0
+    readonly property bool playingAudio: false //hasAudioStream && audioStreams.some(item => !item.corked)
+    readonly property bool muted: false //hasAudioStream && audioStreams.every(item => item.muted)
 
     readonly property bool highlighted: (inPopup && activeFocus) || (!inPopup && containsMouse)
         || (task.contextMenu && task.contextMenu.status === PlasmaExtras.Menu.Open)
         || (!!tasksRoot.groupDialog && tasksRoot.groupDialog.visualParent === task)
 
-    active: !inPopup && !tasksRoot.groupDialog && task.contextMenu?.status !== PlasmaExtras.Menu.Open
+    active: false //!inPopup && !tasksRoot.groupDialog && task.contextMenu?.status !== PlasmaExtras.Menu.Open
     interactive: model.IsWindow || mainItem.playerData
     location: Plasmoid.location
-    mainItem: !Plasmoid.configuration.showToolTips || !model.IsWindow ? pinnedAppToolTipDelegate : openWindowToolTipDelegate
+    mainItem: null //!Plasmoid.configuration.showToolTips || !model.IsWindow ? pinnedAppToolTipDelegate : openWindowToolTipDelegate
 
     onXChanged: {
         if (!completed) {

@@ -1,0 +1,20 @@
+mkdir build
+cd build
+cmake .. -DCMAKE_INSTALL_PREFIX=/usr -DCMAKE_BUILD_TYPE=Release -DKDE_INSTALL_USE_QT_SYS_PATHS=ON
+make -j$(nproc)
+make DESTDIR=~/staging install
+cp -r ~/staging/usr/share/plasma/plasmoids/org.kde.plasma.taskmanager/ ~/.local/share/plasma/plasmoids/com.darshancomputing.taskmanager
+rm -rf ~/.local/share/plasma/plasmoids/com.darshancomputing.pager
+cp -r ~/staging/usr/share/plasma/plasmoids/org.kde.plasma.pager/ ~/.local/share/plasma/plasmoids/com.darshancomputing.pager
+rm -rf ~/.local/share/plasma/plasmoids/com.darshancomputing.pager
+kquitapp6 plasmashell && kstart plasmashell
+
+
+When making changes, you need to:
+
+1) Switch back to the default plasmoid
+2) Make sure it switched
+3) Remove my .local one
+4) Restart plasmashell
+5) Make sure mine isn't listed as an Alternative
+6) build, install, actually install, restart, select alternative, choose mine

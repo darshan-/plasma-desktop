@@ -306,64 +306,11 @@ PlasmoidItem {
 
             model: pagerModel
 
-            PlasmaCore.ToolTipArea {
+            Item {
                 id: desktop
 
                 readonly property string desktopId: isActivityPager ? model.TasksModel.activity : model.TasksModel.virtualDesktop
                 readonly property bool active: (index === pagerModel.currentPage)
-
-                mainText: model.display
-                // our ToolTip has maximumLineCount of 8 which doesn't fit but QML doesn't
-                // respect that in RichText so we effectively can put in as much as we like :)
-                // it also gives us more flexibility when it comes to styling the <li>
-                textFormat: Text.RichText
-
-                function updateSubTextIfNeeded() {
-                    if (!containsMouse) {
-                        return;
-                    }
-
-                    let text = ""
-                    let visibleWindows = []
-                    let minimizedWindows = []
-
-                    for (let i = 0, length = windowRectRepeater.count; i < length; ++i) {
-                        const window = windowRectRepeater.itemAt(i)
-                        if (window) {
-                            if (window.minimized) {
-                                minimizedWindows.push(window.visibleName)
-                            } else {
-                                visibleWindows.push(window.visibleName)
-                            }
-                        }
-                    }
-
-                    if (visibleWindows.length === 1) {
-                        text += visibleWindows[0]
-                    } else if (visibleWindows.length > 1) {
-                        text += i18np("%1 Window:", "%1 Windows:", visibleWindows.length)
-                            + generateWindowList(visibleWindows)
-                    }
-
-                    if (visibleWindows.length && minimizedWindows.length) {
-                        if (visibleWindows.length === 1) {
-                            text += "<br>"
-                        }
-                        text += "<br>"
-                    }
-
-                    if (minimizedWindows.length > 0) {
-                        text += i18np("%1 Minimized Window:", "%1 Minimized Windows:", minimizedWindows.length)
-                            + generateWindowList(minimizedWindows)
-                    }
-
-                    if (text.length) {
-                        // Get rid of the spacing <ul> would cause
-                        text = "<style>ul { margin: 0; }</style>" + text
-                    }
-
-                    subText = text
-                }
 
                 width: pagerItemGrid.columnWidth
                 height: pagerItemGrid.rowHeight
@@ -458,8 +405,6 @@ PlasmoidItem {
 
                         model: TasksModel
 
-                        onCountChanged: desktop.updateSubTextIfNeeded()
-
                         Rectangle {
                             id: windowRect
 
@@ -468,9 +413,6 @@ PlasmoidItem {
                             readonly property rect geometry: model.Geometry
                             readonly property string visibleName: model.display
                             readonly property bool minimized: model.IsMinimized
-
-                            onMinimizedChanged: desktop.updateSubTextIfNeeded()
-                            onVisibleNameChanged: desktop.updateSubTextIfNeeded()
 
                             /* since we move clipRect with 1, move it back */
                             x: Math.round(geometry.x * pagerItemGrid.widthScaleFactor) - 1
@@ -566,8 +508,6 @@ PlasmoidItem {
                         desktopLabelComponent.createObject(desktop, { index, model, desktopFrame });
                     }
                 }
-
-                onContainsMouseChanged: updateSubTextIfNeeded()
             }
         }
     }
