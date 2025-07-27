@@ -32,7 +32,7 @@ include(ECMSetupVersion)
 include(FeatureSummary)
 include(CheckIncludeFiles)
 include(KDEClangFormat)
-include(KDEGitCommitHooks)
+#include(KDEGitCommitHooks)
 include(ECMQmlModule)
 include(ECMConfiguredInstall)
 
@@ -325,8 +325,8 @@ install(FILES kde-mimeapps.list DESTINATION ${KDE_INSTALL_APPDIR})
 
 # add clang-format target for all our real source files
 file(GLOB_RECURSE ALL_CLANG_FORMAT_SOURCE_FILES *.cpp *.h)
-kde_clang_format(${ALL_CLANG_FORMAT_SOURCE_FILES})
-kde_configure_git_pre_commit_hook(CHECKS CLANG_FORMAT)
+#kde_clang_format(${ALL_CLANG_FORMAT_SOURCE_FILES})
+#kde_configure_git_pre_commit_hook(CHECKS CLANG_FORMAT)
 
 feature_summary(WHAT ALL FATAL_ON_MISSING_REQUIRED_PACKAGES)
 

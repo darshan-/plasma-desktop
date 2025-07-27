@@ -19,6 +19,9 @@ PlasmoidItem {
 
     anchors.fill: parent
 
+    toolTipMainText: ""
+    toolTipSubText: ""
+
     signal reset
 
     property bool isDash: Plasmoid.pluginName === "org.kde.plasma.kickerdash"
